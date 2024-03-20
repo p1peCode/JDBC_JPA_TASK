@@ -39,14 +39,6 @@
             <artifactId>hibernate-core</artifactId>
             <version>4.3.10.Final</version>
         </dependency>
-
-
-        <!--Если используешь MYSQL-->
-        <!--        <dependency>-->
-        <!--            <groupId>mysql</groupId>-->
-        <!--            <artifactId>mysql-connector-java</artifactId>-->
-        <!--            <version>5.1.38</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
