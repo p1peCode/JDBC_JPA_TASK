@@ -8,8 +8,6 @@ import overridetech.jdbc.jpa.util.Util;
 
 import java.util.List;
 
-import static overridetech.jdbc.jpa.util.Util.getSessionFactory;
-
 public class UserDaoHibernateImpl implements UserDao {
     private final String TABLE_NAME = "users";
 
@@ -31,7 +29,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        Session session = getSessionFactory().openSession();
+        Session session = Util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         Query query = session.createSQLQuery("drop table if exists " + TABLE_NAME);
@@ -42,7 +40,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        Session session = getSessionFactory().openSession();
+        Session session = Util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         User user = new User(name, lastName, age);
@@ -54,7 +52,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        Session session = getSessionFactory().openSession();
+        Session session = Util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         Query query = session.createSQLQuery("delete from " + TABLE_NAME + " where id = :id").setParameter("id", id);
@@ -65,17 +63,18 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = getSessionFactory().openSession();
+        Session session = Util.getSessionFactory().openSession();
         List<User> userList = session.createQuery("from User").list();
+        session.close();
         return userList;
     }
 
     @Override
     public void cleanUsersTable() {
-        Session session = getSessionFactory().openSession();
+        Session session = Util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        Query query = session.createSQLQuery("truncate table " + TABLE_NAME);
+        Query query = session.createSQLQuery("delete from " + TABLE_NAME);
         query.executeUpdate();
         transaction.commit();
         session.close();
